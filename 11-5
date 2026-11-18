@@ -1,0 +1,61 @@
+#include <stdio.h> // Подключаем библиотеку для вывода текста на экран (printf)
+
+// =========================================================================
+// ПУНКТ 2: Универсальная функция для побайтового вывода переменной ЛЮБОГО типа
+// =========================================================================
+// void* ptr — специальный «всеядный» указатель, который примет адрес любой переменной
+// int size  — размер этой переменной в байтах (узнаем через sizeof)
+void print_bytes(void *ptr, int size) {
+    // Превращаем «всеядный» указатель в указатель на 1 байт (unsigned char*),
+    // чтобы можно было шагать по памяти ровно по 1 байту за раз
+    unsigned char *byte_ptr = (unsigned char *)ptr;
+
+    printf("Байты в памяти (от младшего адреса к старшему): ");
+    for (int i = 0; i < size; i++) {
+        // %.2X выводит байт в красивом 16-ричном виде из двух символов (например, 78 или 0A)
+        printf("%.2X ", byte_ptr[i]);
+    }
+    printf("\n\n");
+}
+
+int main() {
+    // =========================================================================
+    // ПУНКТ 1: Проверяем порядок байтов (исходный код с картинки)
+    // =========================================================================
+    int x = 0x12345678; // Число из 4 байтов: 12, 34, 56 и 78[span_0](start_span)[span_0](end_span)
+    int *prt = &x;      // Указатель на наше число[span_1](start_span)[span_1](end_span)
+    
+    // Переделываем указатель в побайтовый (на 1 байт)[span_2](start_span)[span_2](end_span)
+    unsigned char *a = (unsigned char *)prt;[span_3](start_span)[span_3](end_span)
+    
+    // Берем каждый байт по очереди[span_4](start_span)[span_4](end_span)
+    unsigned char *a1 = a + 3; // 4-й байт в памяти[span_5](start_span)[span_5](end_span)
+    unsigned char *a2 = a + 2; // 3-й байт[span_6](start_span)[span_6](end_span)
+    unsigned char *a3 = a + 1; // 2-й байт[span_7](start_span)[span_7](end_span)
+    unsigned char *a4 = a;     // 1-й байт в памяти[span_8](start_span)[span_8](end_span)
+
+    printf("--- ПУНКТ 1: Проверка числа 0x12345678 ---\n");
+    printf("Вывод от старшего адреса к младшему:\n");
+    printf("%.2x\n%.2x\n%.2x\n%.2x\n\n", *a1, *a2, *a3, *a4);[span_9](start_span)[span_9](end_span)
+
+
+    // =========================================================================
+    // ПУНКТ 3: Сравниваем число 12345 в разных типах (int, float, double)
+    // =========================================================================
+    int num_int = 12345;[span_10](start_span)[span_10](end_span)
+    float num_float = 12345.0f;[span_11](start_span)[span_11](end_span)
+    double num_double = 12345.0;[span_12](start_span)[span_12](end_span)
+
+    printf("--- ПУНКТ 3: Сравнение числа 12345 в разных типах ---\n");
+    
+    printf("1. Тип int (занимает %zu байта):\n", sizeof(num_int));
+    print_bytes(&num_int, sizeof(num_int));
+
+    printf("2. Тип float (занимает %zu байта):\n", sizeof(num_float));
+    print_bytes(&num_float, sizeof(num_float));
+
+    printf("3. Тип double (занимает %zu байт):\n", sizeof(num_double));
+    print_bytes(&num_double, sizeof(num_double));
+
+    return 0; // Конец программы
+}
