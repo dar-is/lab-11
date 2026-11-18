@@ -1,0 +1,35 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+
+    float array[10] = { 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1 };
+    float* ptr_a;
+
+    printf("%p, %p, %p\n", array, &array[0], &array); //  имя массива в действительности является его адресом
+    ptr_a = &array[0]; // присваеваем адрес первого элемента
+    printf("%f %p\n", *ptr_a, ptr_a);
+    ptr_a++;
+    printf("%f %p\n", *ptr_a, ptr_a);
+    ptr_a+= 4;
+    printf("%f %p\n", *ptr_a, ptr_a);
+    ptr_a-= 2;
+    printf("%f %p\n\n", *ptr_a, ptr_a);
+    
+    ptr_a = &array[0]; 
+    for (ptr_a; ptr_a <= &array[9]; ptr_a += 2) { //цикл прохода по массиву с помощью указателя с прямом порядке с увеличением указателя на 2 
+        printf("%f %p\n", *ptr_a, ptr_a);
+    }
+    printf("\n");
+
+    ptr_a = &array[9];
+    for (ptr_a; ptr_a >= &array[0]; ptr_a--) { //цикл прохода по массиву с помощью указателя в обратном порядке
+        printf("%f %p\n", *ptr_a, ptr_a);
+    }
+    printf("\n");
+    system("pause");
+    return 0;
+}
